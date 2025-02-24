@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -34,6 +35,7 @@ import com.example.tareauno.ui.theme.TareaunoTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GitUiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +63,9 @@ fun GitUi(modifier: Modifier = Modifier, context: Context) {
 
     var urlImage by remember { mutableStateOf("")}
     var userId by remember { mutableStateOf("") }
-
+    var nameUser by remember { mutableStateOf("") }
+    var companyUser by remember { mutableStateOf("") }
+    var bioUser by remember { mutableStateOf("") }
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -90,6 +94,11 @@ fun GitUi(modifier: Modifier = Modifier, context: Context) {
                 val response = dataSource.getAvatarInfo(userId)
                 urlImage = response.url
 
+                nameUser = response.name.toString()
+                companyUser = response.company.toString()
+                bioUser = response.bio.toString()
+
+
             }
 
 
@@ -97,11 +106,15 @@ fun GitUi(modifier: Modifier = Modifier, context: Context) {
 
         }) {
             Text(text = stringResource(id = R.string.github_ui_button))
+
         }
         AsyncImage(
             model = urlImage,
             contentDescription = null
         )
+        Text(text = nameUser, color= Color.Black)
+        Text(text = companyUser, color= Color.White)
+        Text(text = bioUser, color= Color.White)
     }
 }
 
